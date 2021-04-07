@@ -44,4 +44,3 @@ class control_mult {
     BLOCK1(data_int,dout,ctrl_int);
   }
 };
-
