@@ -1,20 +1,20 @@
-#include "ac_int.h"
-#include "ac_channel.h"
+#include "ap_int.h"
+#include "hls_stream.h"
 
 #define WIDTH 4
-typedef ac_int<4,false> uint4;
-typedef ac_int<WIDTH,false> ctrl_type;
+typedef ap_uint<4> uint4;
+typedef ap_uint<WIDTH> ctrl_type;
 
 class control_mult {
     
-  ac_channel<uint4> data_int;
-  ac_channel<ctrl_type> ctrl_int;
+  hls::stream<uint4> data_int;
+  hls::stream<ctrl_type> ctrl_int;
     
   #pragma hls_design
-  void BLOCK0 (ac_channel<uint4> &din,
-               ac_channel<uint4> &dout,
-               ac_channel<ctrl_type> &ctrl_in,
-               ac_channel<ctrl_type> &ctrl_out) {
+  void BLOCK0 (hls::stream<uint4> &din,
+               hls::stream<uint4> &dout,
+               hls::stream<ctrl_type> &ctrl_in,
+               hls::stream<ctrl_type> &ctrl_out) {
     ctrl_type temp_int = ctrl_in.read();
     ctrl_out.write(temp_int); // one write
     WRITE:for (ctrl_type i = 0; i != temp_int; i++) {
@@ -23,9 +23,9 @@ class control_mult {
   }
     
   #pragma hls_design
-  void BLOCK1 (ac_channel<uint4> &din,
-               ac_channel<uint4> &dout,
-               ac_channel<ctrl_type> &ctrl) {
+  void BLOCK1 (hls::stream<uint4> &din,
+               hls::stream<uint4> &dout,
+               hls::stream<ctrl_type> &ctrl) {
     ctrl_type temp_int = ctrl.read(); // one read
     READ:for (ctrl_type i=0; i != temp_int; i++) {
       dout.write(din.read());
@@ -37,9 +37,9 @@ class control_mult {
   control_mult () {}
     
   #pragma hls_degisn interface
-  void top (ac_channel<uint4> &din,
-            ac_channel<uint4> &dout,
-            ac_channel<ctrl_type> &ctrl) {
+  void top (hls::stream<uint4> &din,
+            hls::stream<uint4> &dout,
+            hls::stream<ctrl_type> &ctrl) {
     BLOCK0(din,data_int,ctrl,ctrl_int);
     BLOCK1(data_int,dout,ctrl_int);
   }

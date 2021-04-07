@@ -1,7 +1,7 @@
-#include "ac_channel.h"
-#include "ac_int.h"
+#include "hls_stream.h"
+#include "ap_int.h"
 
-typedef ac_int<4,false> uint4;
+typedef ap_uint<4> uint4;
 
 struct chanStruct {
     uint4 data[3];
@@ -9,27 +9,27 @@ struct chanStruct {
 
 class simple_chanstruct {
     
-  ac_channel<chanStruct> tmp;
+  hls::stream<chanStruct> tmp;
     
   #pragma hls_design
-  void BLOCK0( ac_channel<uint4> &din,
-               ac_channel<chanStruct> &dout) {
+  void BLOCK0( hls::stream<uint4> &din,
+               hls::stream<chanStruct> &dout) {
       
     chanStruct tmp;
       
-    WRITE:for(ac_int<3,false> i=0; i<3; i++){
+    WRITE:for(ap_uint<3> i=0; i<3; i++){
       tmp.data[i] = din.read();
     }
     dout.write(tmp);
   }
 
   #pragma hls_design
-  void BLOCK1( ac_channel<chanStruct> &din,
-               ac_channel<uint4> &dout) {
+  void BLOCK1( hls::stream<chanStruct> &din,
+               hls::stream<uint4> &dout) {
       
     chanStruct tmp;
     tmp = din.read();
-    READ:for(ac_int<4,true> i =2; i>=0; i--) {
+    READ:for(ap_int<4> i =2; i>=0; i--) {
       dout.write(tmp.data[i]);
     }
   }
@@ -39,8 +39,8 @@ class simple_chanstruct {
     simple_chanstruct () {}
     
   #pragma hls_design interface
-  void run (ac_channel<uint4> &din,
-            ac_channel<uint4> &dout) {
+  void run (hls::stream<uint4> &din,
+            hls::stream<uint4> &dout) {
       
     BLOCK0(din,tmp);
     BLOCK1(tmp,dout);

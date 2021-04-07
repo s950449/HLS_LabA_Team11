@@ -1,21 +1,21 @@
-#include "ac_int.h"
-#include "ac_channel.h"
+#include "ap_int.h"
+#include "hls_stream.h"
 
-typedef ac_int<4,false> uint4;
+typedef ap_uint<4> uint4;
 
 class recon_multadd_diff {
 
     
-  ac_channel<uint4> b1_in;
-  ac_channel<uint4> b2_in;
-  ac_channel<uint4> b3_in_0;
-  ac_channel<uint4> b3_in_1;
+  hls::stream<uint4> b1_in;
+  hls::stream<uint4> b2_in;
+  hls::stream<uint4> b3_in_0;
+  hls::stream<uint4> b3_in_1;
 
   #pragma hls_design
-  void BLOCK0 (ac_channel<uint4> &din0,
-               ac_channel<uint4> &din1,
-               ac_channel<uint4> &dout0,
-               ac_channel<uint4> &dout1) {
+  void BLOCK0 (hls::stream<uint4> &din0,
+               hls::stream<uint4> &din1,
+               hls::stream<uint4> &dout0,
+               hls::stream<uint4> &dout1) {
     uint4 tmp0, tmp1;
     tmp0 = din0.read();
     tmp1 = din1.read();
@@ -24,25 +24,25 @@ class recon_multadd_diff {
   }
 
   #pragma hls_design
-  void BLOCK1 (ac_channel<uint4> &din,
-               ac_channel<uint4> &dout) {
+  void BLOCK1 (hls::stream<uint4> &din,
+               hls::stream<uint4> &dout) {
     uint4 tmp;
     tmp = din.read() * 13;
     dout.write(tmp);
   }
     
   #pragma hls_design
-  void BLOCK2 (ac_channel<uint4> &din1,
-               ac_channel<uint4> &dout) {
+  void BLOCK2 (hls::stream<uint4> &din1,
+               hls::stream<uint4> &dout) {
     uint4 tmp;
     tmp = din1.read() + 111;
     dout.write(tmp);
   }
     
   #pragma hls_design
-  void BLOCK3 (ac_channel<uint4> &din0,
-               ac_channel<uint4> &din1,
-               ac_channel<uint4> &dout) {
+  void BLOCK3 (hls::stream<uint4> &din0,
+               hls::stream<uint4> &din1,
+               hls::stream<uint4> &dout) {
     uint4 tmp;
     tmp = din0.read() - din1.read();
     dout.write(tmp);
@@ -53,9 +53,9 @@ class recon_multadd_diff {
   recon_multadd_diff () {}
     
   #pragma hls_design interface
-  void run (ac_channel<uint4> &din0,
-            ac_channel<uint4> &din1,
-            ac_channel<uint4> &dout) {
+  void run (hls::stream<uint4> &din0,
+            hls::stream<uint4> &din1,
+            hls::stream<uint4> &dout) {
     BLOCK0(din0,din1,b1_in,b2_in);
     BLOCK1(b1_in,b3_in_0);
     BLOCK2(b2_in,b3_in_1);
