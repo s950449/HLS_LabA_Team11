@@ -46,3 +46,4 @@ class simple_chanstruct {
     BLOCK1(tmp,dout);
   }
 };
+
