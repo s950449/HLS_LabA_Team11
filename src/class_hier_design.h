@@ -6,8 +6,10 @@ class top_chan {
 	hls::stream<uint5> tmp; // hls::stream to connect BLOCK0 and BLOCK1
 #pragma hls_design
 	void BLOCK0 (hls::stream<uint4> &a,hls::stream<uint5> &b) {
+#pragma HLS PIPELINE II=1
 		//int temp[4];
 		uint5 temp[4];
+#pragma HLS ARRAY_MAP variable=temp horizontal
 		if (!a.empty()) {//4
 			READ:for(ap_uint<3> i=0; i<4; i++) {
 				temp[i] = a.read();
@@ -21,7 +23,9 @@ class top_chan {
 
 	#pragma hls_design
 
-	void BLOCK1 (hls::stream<uint5> &a,hls::stream<uint5> &b) {
+	void BLOCK1 (hls::stream<uint5> &
+#pragma HLS PIPELINE II=1
+a,hls::stream<uint5> &b) {
 		PASS:for(ap_uint<3> i=0; i<2; i++) {
 				if(!a.empty())//1
 					b.write(a.read());

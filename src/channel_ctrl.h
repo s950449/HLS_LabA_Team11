@@ -15,6 +15,7 @@ class control_mult {
                hls::stream<uint4> &dout,
                hls::stream<ctrl_type> &ctrl_in,
                hls::stream<ctrl_type> &ctrl_out) {
+#pragma HLS PIPELINE II=1
     ctrl_type temp_int = ctrl_in.read();
     ctrl_out.write(temp_int); // one write
     WRITE:for (ctrl_type i = 0; i != temp_int; i++) {
@@ -25,7 +26,9 @@ class control_mult {
   #pragma hls_design
   void BLOCK1 (hls::stream<uint4> &din,
                hls::stream<uint4> &dout,
-               hls::stream<ctrl_type> &ctrl) {
+               hls::
+#pragma HLS PIPELINE II=1
+stream<ctrl_type> &ctrl) {
     ctrl_type temp_int = ctrl.read(); // one read
     READ:for (ctrl_type i=0; i != temp_int; i++) {
       dout.write(din.read());

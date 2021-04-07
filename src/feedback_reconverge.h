@@ -16,6 +16,7 @@ class recon_multadd_diff {
                hls::stream<uint4> &din1,
                hls::stream<uint4> &dout0,
                hls::stream<uint4> &dout1) {
+#pragma HLS PIPELINE II=1 enable_flush
     uint4 tmp0, tmp1;
     tmp0 = din0.read();
     tmp1 = din1.read();
@@ -25,14 +26,18 @@ class recon_multadd_diff {
 
   #pragma hls_design
   void BLOCK1 (hls::stream<uint4> &din,
-               hls::stream<uint4> &dout) {
+               h
+#pragma HLS PIPELINE II=1
+ls::stream<uint4> &dout) {
     uint4 tmp;
     tmp = din.read() * 13;
     dout.write(tmp);
   }
     
   #pragma hls_design
-  void BLOCK2 (hls::stream<uint4> &din1,
+  void BLOCK2 (hls::stream<uin
+#pragma HLS PIPELINE II=1 enable_flush
+t4> &din1,
                hls::stream<uint4> &dout) {
     uint4 tmp;
     tmp = din1.read() + 111;
@@ -41,7 +46,9 @@ class recon_multadd_diff {
     
   #pragma hls_design
   void BLOCK3 (hls::stream<uint4> &din0,
-               hls::stream<uint4> &din1,
+               hls::stream<uin
+#pragma HLS PIPELINE II=1 enable_flush
+t4> &din1,
                hls::stream<uint4> &dout) {
     uint4 tmp;
     tmp = din0.read() - din1.read();

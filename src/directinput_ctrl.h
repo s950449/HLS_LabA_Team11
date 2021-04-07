@@ -13,6 +13,8 @@ class control_mult {
   void BLOCK0 (hls::stream<uint4> &din,
                hls::stream<uint4> &dout,
                ap_uint<WIDTH> &ctrl) {
+#pragma HLS INTERFACE port=ctrl
+#pragma HLS PIPELINE II=1
     WRITE:for (ap_uint<8> i=0; i<255; i++) {
       if(i==ctrl)
         break;
@@ -22,8 +24,12 @@ class control_mult {
 
   #pragma hls_design
   void BLOCK1 (hls::stream<uint4> &din,
-               hls::stream<uint4> &dout,
-               ap_uint<WIDTH> &ctrl) {
+               hls::s
+#pragma HLS INTERFACE port=ctrl
+tream<uint4> &dout,
+
+#pragma HLS PIPELINE II=1
+   ap_uint<WIDTH> &ctrl) {
     READ:for (ap_uint<WIDTH> i=0; i<255; i++) {
       if(i==ctrl)
         break;
@@ -39,6 +45,7 @@ class control_mult {
   void top (hls::stream<uint4> &din,
             hls::stream<uint4> &dout,
             ap_uint<WIDTH> &ctrl) {
+#pragma HLS INTERFACE port=ctrl
     BLOCK0(din,data_int,ctrl);
     BLOCK1(data_int,dout,ctrl);
   }
