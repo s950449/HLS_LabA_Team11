@@ -6,7 +6,7 @@
 
 using namespace std;
 
-int main(void) {
+int main (void) {
     hls::stream<uint4> din, dout;
     hls::stream<ctrl_type> ctrl;
     uint4 output;
@@ -34,6 +34,6 @@ int main(void) {
         return 1;
     }
 
-    ::cout << "Passed Congrats" << endl;
+    cout << "Passed Congrats" << endl;
     return 0;
 }
