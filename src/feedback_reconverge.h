@@ -5,13 +5,12 @@ typedef ap_uint<4> uint4;
 
 class recon_multadd_diff {
 
-    
   hls::stream<uint4> b1_in;
   hls::stream<uint4> b2_in;
   hls::stream<uint4> b3_in_0;
   hls::stream<uint4> b3_in_1;
 
-  #pragma hls_design
+#pragma hls_design
   void BLOCK0 (hls::stream<uint4> &din0,
                hls::stream<uint4> &din1,
                hls::stream<uint4> &dout0,
@@ -24,38 +23,35 @@ class recon_multadd_diff {
     dout1.write(tmp0 - tmp1);
   }
 
-  #pragma hls_design
+#pragma hls_design
   void BLOCK1 (hls::stream<uint4> &din,
-               h
+               hls::stream<uint4> &dout) {
 #pragma HLS PIPELINE II=1
-ls::stream<uint4> &dout) {
-    uint4 tmp;
+	uint4 tmp;
     tmp = din.read() * 13;
     dout.write(tmp);
   }
     
-  #pragma hls_design
-  void BLOCK2 (hls::stream<uin
-#pragma HLS PIPELINE II=1 enable_flush
-t4> &din1,
+#pragma hls_design
+  void BLOCK2 (hls::stream<uint4> &din1,
                hls::stream<uint4> &dout) {
+#pragma HLS PIPELINE II=1 enable_flush
     uint4 tmp;
     tmp = din1.read() + 111;
     dout.write(tmp);
   }
     
-  #pragma hls_design
+#pragma hls_design
   void BLOCK3 (hls::stream<uint4> &din0,
-               hls::stream<uin
-#pragma HLS PIPELINE II=1 enable_flush
-t4> &din1,
+               hls::stream<uint4> &din1,
                hls::stream<uint4> &dout) {
+#pragma HLS PIPELINE II=1 enable_flush
     uint4 tmp;
     tmp = din0.read() - din1.read();
     dout.write(tmp);
   }
     
-  public:
+public:
 
   recon_multadd_diff () {}
     
@@ -69,3 +65,7 @@ t4> &din1,
     BLOCK3(b3_in_0,b3_in_1,dout);
   }
 };
+
+void top (hls::stream<uint4> &din0,
+          hls::stream<uint4> &din1,
+          hls::stream<uint4> &dout);
