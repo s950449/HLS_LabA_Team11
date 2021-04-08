@@ -21,25 +21,22 @@ class top_chan {
 		}
 	} // end BLOCK0
 
-	#pragma hls_design
-
-	void BLOCK1 (hls::stream<uint5> &
+#pragma hls_design
+	void BLOCK1 (hls::stream<uint5> &a,hls::stream<uint5> &b) {
 #pragma HLS PIPELINE II=1
-a,hls::stream<uint5> &b) {
-		PASS:for(ap_uint<3> i=0; i<2; i++) {
-				if(!a.empty())//1
+	    PASS:for(ap_uint<3> i=0; i<2; i++) {
+		if(!a.empty())//1
 					b.write(a.read());
-			}
+	    }
 	} // end BLOCK1
-	public:
-		top_chan () {} // required constructor
+public:
+	top_chan () {} // required constructor
 
 #pragma hls_design interface
-
-		void run (hls::stream<uint4> &in,hls::stream<uint5> &out) {
-			BLOCK0(in,tmp);
-			BLOCK1(tmp,out);
-		}
+	void run (hls::stream<uint4> &in,hls::stream<uint5> &out) {
+	    BLOCK0(in,tmp);
+	    BLOCK1(tmp,out);
+	}
 };
 
-
+void top (hls::stream<uint4> &in, hls::stream<uint5> &out);
