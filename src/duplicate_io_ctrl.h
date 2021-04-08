@@ -12,7 +12,7 @@ class control_mult {
   hls::stream<ctr_type> ctrl0;
   hls::stream<ctr_type> ctrl1;
     
-  #pragma hls_design
+#pragma hls_design
   void CONTROL (hls::stream<ctr_type> &ctrl,
                 hls::stream<ctr_type> &ctrl0,
                 hls::stream<ctr_type> &ctrl1) {
@@ -22,12 +22,11 @@ class control_mult {
     ctrl1.write(ctrl_int);
   }
     
-  #pragma hls_design
+#pragma hls_design
   void BLOCK0 (hls::stream<dat_type> &din,
                hls::stream<dat_type> &dout,
-               hls:
+               hls::stream<ctr_type> &ctrl) {
 #pragma HLS PIPELINE II=1
-:stream<ctr_type> &ctrl) {
     ctr_type ctrl_int = ctrl.read();
     WRITE:for(ctr_type i=0; i<255; i++) {
       if(i==ctrl_int)
@@ -36,12 +35,11 @@ class control_mult {
     }
   }
 
-  #pragma hls_design
+#pragma hls_design
   void BLOCK1 (hls::stream<dat_type> &din,
-               hls::stream<dat_type>
+               hls::stream<dat_type> &dout,
+			   hls::stream<ctr_type> &ctrl) {
 #pragma HLS PIPELINE II=1
- &dout,
-               hls::stream<ctr_type> &ctrl) {
     ctr_type ctrl_int = ctrl.read();
     WRITE:for(ctr_type i=0; i<255; i++) {
       if(i==ctrl_int)
@@ -50,12 +48,12 @@ class control_mult {
     }
   }
     
-  public:
+public:
     
   control_mult () {}
 
-  #pragma hls_design interface
-  void top (hls::stream<dat_type> &din0,
+#pragma hls_design interface
+  void run (hls::stream<dat_type> &din0,
             hls::stream<dat_type> &din1,
             hls::stream<dat_type> &dout0,
             hls::stream<dat_type> &dout1,
@@ -65,3 +63,9 @@ class control_mult {
     BLOCK1(din1,dout1,ctrl1);
   }
 };
+
+void top (hls::stream<dat_type> &din0,
+          hls::stream<dat_type> &din1,
+          hls::stream<dat_type> &dout0,
+          hls::stream<dat_type> &dout1,
+          hls::stream<ctr_type> &ctrl);
