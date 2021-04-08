@@ -3,9 +3,8 @@
 
 typedef ap_uint<4> uint4;
 
-struct chanStr
+struct chanStruct {
 #pragma HLS ARRAY_MAP variable=data horizontal
-uct {
     uint4 data[3];
 };
 
@@ -13,7 +12,7 @@ class simple_chanstruct {
     
   hls::stream<chanStruct> tmp;
     
-  #pragma hls_design
+#pragma hls_design
   void BLOCK0( hls::stream<uint4> &din,
                hls::stream<chanStruct> &dout) {
 #pragma HLS PIPELINE II=1
@@ -26,12 +25,10 @@ class simple_chanstruct {
     dout.write(tmp);
   }
 
-  #pragma hls_design
+#pragma hls_design
   void BLOCK1( hls::stream<chanStruct> &din,
-               h
+               hls::stream<uint4> &dout) {
 #pragma HLS PIPELINE II=1
-ls::stream<uint4> &dout) {
-      
     chanStruct tmp;
     tmp = din.read();
     READ:for(ap_int<4> i =2; i>=0; i--) {
@@ -43,7 +40,7 @@ ls::stream<uint4> &dout) {
     
     simple_chanstruct () {}
     
-  #pragma hls_design interface
+#pragma hls_design interface
   void run (hls::stream<uint4> &din,
             hls::stream<uint4> &dout) {
       
@@ -51,3 +48,6 @@ ls::stream<uint4> &dout) {
     BLOCK1(tmp,dout);
   }
 };
+
+void top (hls::stream<uint4> &din,
+          hls::stream<uint4> &dout);
