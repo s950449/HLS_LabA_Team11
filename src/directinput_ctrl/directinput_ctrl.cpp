@@ -24,8 +24,8 @@ void BLOCK1 (hls::stream<uint4> &din,
 void top (hls::stream<uint4> &din,
           hls::stream<uint4> &dout,
           ap_uint<WIDTH> &ctrl) {
-#pragma HLS STREAM variable=data_int depth=1
   hls::stream<uint4> data_int;
+#pragma HLS STREAM variable=data_int depth=1 dim=1
   BLOCK0(din, data_int, ctrl);
   BLOCK1(data_int, dout, ctrl);
 }

@@ -51,6 +51,10 @@ class recon_multadd_diff {
 
 #pragma hls_design interface
     void run(hls::stream<uint4>& din0, hls::stream<uint4>& din1, hls::stream<uint4>& dout) {
+#pragma HLS STREAM variable=b1_in depth=1
+#pragma HLS STREAM variable=b2_in depth=1
+#pragma HLS STREAM variable=b3_in_0 depth=1
+#pragma HLS STREAM variable=b3_in_1 depth=1
         BLOCK0(din0, din1, b1_in, b2_in);
         BLOCK1(b1_in, b3_in_0);
         BLOCK2(b2_in, b3_in_1);
