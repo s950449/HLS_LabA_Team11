@@ -14,7 +14,8 @@ int main(void) {
 
     for (int i = 0; i < len; i++) din.write(i);
 
-    while (!din.empty()) top(din, dout);
+    //while (!din.empty()) top(din, dout);
+    for (int i = 0; i < 5; i++) top(din, dout);
 
     cout << ">> Start Checking" << endl;
     cout << "------------------------" << endl;
@@ -24,6 +25,7 @@ int main(void) {
         cout << "Output: " << output << "\tExpect: " << expect << endl;
         if (output != expect) pass = 0;
     }
+
     cout << "------------------------" << endl;
     if (!pass) {
         cout << "Failed" << endl;
