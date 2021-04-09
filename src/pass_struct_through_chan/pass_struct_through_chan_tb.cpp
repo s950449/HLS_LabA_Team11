@@ -11,9 +11,13 @@ int main(void) {
     uint4 output;
     int pass = 1;
 
-    for (int i = 0; i < len; i++) din.write(i);
+    for (int i = 0; i < len; i++) {
+        din.write(i);
+    }
 
-    top(din, dout);
+    while (!din.empty()) {
+        top(din, dout);
+    }
 
     cout << ">> Start Checking" << endl;
     cout << "------------------------" << endl;
