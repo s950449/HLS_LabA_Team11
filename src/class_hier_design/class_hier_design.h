@@ -31,6 +31,7 @@ class top_chan {
 
 #pragma hls_design interface
     void run(hls::stream<uint4>& in, hls::stream<uint5>& out) {
+#pragma HLS STREAM variable=tmp depth=2
         BLOCK0(in, tmp);
         BLOCK1(tmp, out);
     }
