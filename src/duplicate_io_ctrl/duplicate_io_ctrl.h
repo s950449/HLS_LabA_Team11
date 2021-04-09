@@ -48,6 +48,8 @@ class control_mult {
              hls::stream<dat_type>& dout0,
              hls::stream<dat_type>& dout1,
              hls::stream<ctr_type>& ctrl) {
+#pragma HLS STREAM variable=ctrl0 depth=1
+#pragma HLS STREAM variable=ctrl1 depth=1
         CONTROL(ctrl, ctrl0, ctrl1);
         BLOCK0(din0, dout0, ctrl0);
         BLOCK1(din1, dout1, ctrl1);
