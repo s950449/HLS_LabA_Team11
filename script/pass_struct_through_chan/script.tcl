@@ -7,7 +7,7 @@ open_project dasd
 set_top top
 add_files pass_struct_through_chan/pass_struct_through_chan.cpp
 add_files pass_struct_through_chan/pass_struct_through_chan.h
-add_files -tb pass_struct_through_chan/pass_struct_through_chan_tb.cpp
+add_files -tb class_hier_design/class_hier_design_tb.cpp
 open_solution "solution1"
 set_part {xc7z020clg484-1}
 create_clock -period 5 -name default

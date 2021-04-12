@@ -7,7 +7,7 @@ open_project dasd
 set_top top
 add_files channel_ctrl/channel_ctrl.cpp
 add_files channel_ctrl/channel_ctrl.h
-add_files -tb channel_ctrl/channel_ctrl_tb.cpp
+add_files -tb class_hier_design/class_hier_design_tb.cpp
 open_solution "solution1"
 set_part {xc7z020clg484-1}
 create_clock -period 5 -name default
